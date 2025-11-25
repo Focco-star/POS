@@ -3,10 +3,10 @@ package POS;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
-// TableModel
+// Table Model
 public class CartTableModel extends AbstractTableModel {
     private final Cart cart;
-    private final String[] columns = {"Item", "Qty", "Price", "Total"};
+    private final String[] columns = {"Item", "Qty", "Price", "Total", "Action"};
 
     public CartTableModel(Cart cart) {
         this.cart = cart;
@@ -41,8 +41,35 @@ public class CartTableModel extends AbstractTableModel {
                 return String.format("₱%.2f", ci.getProduct().getPrice());
             case 3:
                 return String.format("₱%.2f", ci.getTotalPrice());
+            case 4:
+                return "Remove";
             default:
                 return "";
+        }
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        // Editable
+        return columnIndex == 1 || columnIndex == 4;
+    }
+
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        List<CartItem> items = cart.getItems();
+        if (rowIndex < 0 || rowIndex >= items.size()) return;
+        CartItem ci = items.get(rowIndex);
+        if (columnIndex == 1) {
+            try {
+                int v = Integer.parseInt(aValue.toString());
+                if (v <= 0) {
+                    // Remove
+                    cart.removeProduct(ci.getProduct());
+                } else {
+                    ci.setQuantity(v);
+                }
+                fireTableDataChanged();
+            } catch (NumberFormatException ignored) {}
         }
     }
 }

@@ -1,6 +1,6 @@
 package POS;
 
-// CartItem
+// Cart Item
 public class CartItem {
     private final Product product; // Product
     private int quantity; // Qty
@@ -12,17 +12,17 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    // GetProduct
+    // Get product
     public Product getProduct() {
         return product;
     }
 
-    // GetQty
+    // Get qty
     public int getQuantity() {
         return quantity;
     }
 
-    // SetQty
+    // Set qty
     public void setQuantity(int quantity) {
         if (quantity < 0) quantity = 0;
         this.quantity = quantity;
@@ -33,17 +33,17 @@ public class CartItem {
         quantity = quantity + 1;
     }
 
-    // TotalPrice
+    // Total
     public double getTotalPrice() {
         return product.getPrice() * quantity;
     }
 
-    // Quick test runner so this file can be run directly for learning.
+    // Test
     public static void main(String[] args) {
-        // Create a sample product and cart item
+        // Create sample
         Product p = new FoodItem("Sample Burger", 99.50);
         CartItem ci = new CartItem(p, 2);
-        // Print a simple line showing name, qty and total
+        // Print
         System.out.println(ci.getProduct().getName() + " x" + ci.getQuantity() + " = " + String.format("₱%.2f", ci.getTotalPrice()));
     }
 }
